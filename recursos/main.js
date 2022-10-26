@@ -21,8 +21,8 @@ console.log(usuario01)
 
 let AlumnosEvaluados = []
 
-let usuario = prompt("Usuario: ") ;
-let contrasenia = prompt("Contraseña: ");
+let usuario = document.getElementById("inputUsuario").value;
+let contrasenia = Document.getElementById("inputContraseña").value;
 
 
 if (usuario === usuario01.usuariocorrecto && contrasenia === usuario01.contraseniacorrecta) {
@@ -72,13 +72,24 @@ function menu() {
 }
 
 function buscarAlumno() {
-    let alumnoBuscar = parseInt(prompt ("Ingrese el nombre del alumno: "));
+    let alumnoBuscar = prompt ("Ingrese el nombre del alumno: ");
     let Alumno01 = AlumnosEvaluados.find(Alumno01 => Alumno01.nombreAlumno === alumnoBuscar);
     console.log (Alumno01);
 }
 
+
 function modificarAlumno () {
-    let alumnoBuscar = parseInt(prompt ("Ingrese el nombre del alumno: "));
+
+    class Alumno{
+        constructor (numeroAlumno, nombreAlumno, promedio, aprobado){
+            this.numeroAlumno = numeroAlumno;
+            this.nombreAlumno = nombreAlumno;
+            this.promedio = promedio;
+            this.aprobado = aprobado
+        }
+    }
+
+    let alumnoBuscar = prompt ("Ingrese el nombre del alumno: ");
     let Alumno = AlumnosEvaluados.find(Alumno01 => Alumno01.nombreAlumno === alumnoBuscar);
     let nombreAlumno = prompt ("Ingrese el nombre del alumno: ");
     let nota1 = parseInt(prompt("Ingrese la nota 1: "));
