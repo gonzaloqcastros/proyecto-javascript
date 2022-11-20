@@ -82,11 +82,28 @@ function inicializarElementos() {
   }
   
   function eliminarStorage() {
-    localStorage.clear();
+    Swal.fire({
+      icon: "question",
+      title: "¿Estas seguro que quieres eliminar a los alumnos y salir?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTimeout( () =>{
+        Swal.fire(
+          'Los datos de los alumnos fueron eliminados y se ha desconectado',
+          'Hasta pronto!',
+          'error'
+        )},500)
+        
+        localStorage.clear();
     usuario = "";
     Alumnos = [];
     mostrarFormularioLogin();
     mostrarAlumnos();
+  }
+    }); 
   }
   
   function identificarUsuario(event) {
@@ -136,12 +153,10 @@ function aprobado(promedio) {
     let nota4 = parseFloat(inputNota4.value);
     let promedio = calculoPromedio (nota1, nota2, nota3, nota4)
     let aprueba = aprobado (promedio);
-    if(promedio >= 7 && promedio <= 10) {
+    if (promedio >= 7) {
         aprueba = "esta aprobado";
-    }else if (promedio >= 0 && promedio < 7) {
+    }else {
         aprueba = "no esta aprobado";
-    }else{
-        aprueba = "Los valores ingresados son incorrectos";
     }
 
     const idExiste = Alumnos.some((Alumno) => Alumno.id === idAlumno);
@@ -161,10 +176,13 @@ function aprobado(promedio) {
       formulario.reset();
       actualizarAlumnosStorage();
       mostrarAlumnos();
-      mostrarMensajeConfirmacion(
-        `El Alumno ${nombreAlumno} fue agregado exitosamente`,
-        "info"
-      );
+      setTimeout( () =>{
+      Swal.fire(
+        'El alumno fue creado exitosamente!',
+        'Datos guardados',
+        'success'
+      )}, 500)
+      
     } else {
       alert("El id ya existe");
     }
@@ -179,6 +197,13 @@ function aprobado(promedio) {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
+        setTimeout( () =>{
+        Swal.fire(
+          'Los datos del alumno fueron eliminados',
+          'Datos actualizados',
+          'error'
+        )}, 500)
+        
         eliminarAlumno(idAlumno);
       }
     });
@@ -190,14 +215,9 @@ function aprobado(promedio) {
       (Alumno) => Number(Alumno.id) === Number(idAlumno)
     );
   
-    let nombreAlumnoEliminado = Alumnos[indiceBorrar].nombreAlumno;
     Alumnos.splice(indiceBorrar, 1);
     columnaBorrar.remove();
     actualizarAlumnosStorage();
-    mostrarMensajeConfirmacion(
-      `El Alumno ${nombreAlumnoEliminado} fue eliminado exitosamente`,
-      "danger"
-    );
   }
   
   
@@ -260,16 +280,6 @@ function aprobado(promedio) {
     }
   }
   
-  function mostrarMensajeConfirmacion(mensaje, clase) {
-    Toastify({
-      text: mensaje,
-      duration: 30000,
-      close: true,
-      gravity: "top",
-      position: "right",
-      className: clase
-    }).showToast();
-  }
   
   function main() {
     inicializarElementos();
