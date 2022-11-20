@@ -292,4 +292,19 @@ function aprobado(promedio) {
 
   main();
 
+    const url = "http://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires" ;
+    const tiempo = document.getElementById("divTiempo");
 
+    setInterval( () => {
+      fetch(url)
+      .then(response => response.json())
+      .then(({datetime}) => {
+        tiempo.innerHTML= `
+        <p> ${datetime} </p>
+        `
+      })
+      .catch(error => console.log(error))
+    },1000 )
+  
+    
+  
